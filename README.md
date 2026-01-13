@@ -24,7 +24,7 @@ This repository introduces **EBA-QR** (Entropy-Based Adaptive Quantum Representa
 * **Validated on IBM Quantum** simulators and hardware.
 
 <p align="center">
-  <img src="EBA_QR_Flowchart_Final-1.jpg" alt="EBA-QR Architecture Flowchart" width="80%">
+  <img src="EBA_QR_Flowchart_Final (1).png" alt="EBA-QR Architecture Flowchart" width="80%">
 </p>
 
 ---
