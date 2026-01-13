@@ -24,7 +24,7 @@ This repository introduces **EBA-QR** (Entropy-Based Adaptive Quantum Representa
 * **Validated on IBM Quantum** simulators and hardware.
 
 <p align="center">
-  <img src="EBA_QR_Flowchart_Final (1).png" alt="EBA-QR Architecture Flowchart" width="80%">
+  <img src="EBA_QR_Flowchart_Final (1).png" alt="EBA-QR Architecture Flowchart" width="85%">
 </p>
 
 ---
@@ -64,19 +64,31 @@ pip install -r requirements.txt
 
 ### 📂 Dataset Preparation
 
-Due to licensing restrictions, the datasets are not included in this repo. Please download them from their official sources and place them in the `data/` directory:
+We utilize three publicly available datasets. Please download them from the links below and extract them into the `data/` directory:
 
-* **SSDD (SAR):** [Official Dataset Link]
-* **Figshare MRI:** [Official Dataset Link]
-* **ICEYE:** [Official Dataset Link]
+1. **Brain Tumor MRI:** [Download from Figshare](https://figshare.com/articles/dataset/brain_tumor_dataset/1512427)
+* *Description:* 3,064 T1-weighted MRI images containing meningioma, glioma, and pituitary tumors.
+* *Destination:* `data/data_MRI/`
 
-**Structure:**
+
+2. **SSDD (SAR Ship Detection):** [Download from Google Drive](https://drive.google.com/file/d/1glNJUGotrbEyk43twwB9556AdngJsynZ/view?usp=sharing)
+* *Description:* Synthetic Aperture Radar imagery for maritime surveillance.
+* *Destination:* `data/data_SSDD/`
+
+
+3. **ICEYE SAR:** [Download from ICEYE](https://www.iceye.com/downloads/datasets)
+* *Description:* High-resolution SAR imagery (e.g., Doha Airport).
+* *Destination:* `data/data_ICEYE/`
+
+
+
+**Directory Structure:**
 
 ```text
 data/
-├── data_SSDD/   # .jpg files
-├── data_MRI/    # .mat files
-└── data_ICEYE/  # .png files
+├── data_SSDD/   # Contains .jpg/.xml files
+├── data_MRI/    # Contains .mat files
+└── data_ICEYE/  # Contains .png/.tif files
 
 ```
 
@@ -160,7 +172,7 @@ This project is licensed under the **MIT License**.
 
 **Tanisha Debnath** Institute of Engineering & Management, Kolkata
 
-Email: tanishabdebnath@gmail.com
+Email: [tanishabdebnath@gmail.com](mailto:tanishabdebnath@gmail.com)
 
 ```
 
