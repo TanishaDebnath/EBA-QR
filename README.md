@@ -1,5 +1,4 @@
-
-# EBA-QR: An Entropy-Based Adaptive Quantum Image Representation Framework
+# EBA-QR: Entropy-Based Adaptive Quantum Image Representation
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1tUTHOa5iyWGzKdAlK3WqlHbP5oezR9OP?usp=sharing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -7,173 +6,167 @@
 [![Qiskit](https://img.shields.io/badge/Qiskit-0.44-purple.svg)](https://qiskit.org/)
 [![arXiv](https://img.shields.io/badge/arXiv-2501.XXXXX-b31b1b.svg)](https://arxiv.org/)
 
-**Official Implementation** of the research paper:  
-> **"EBA-QR: An Entropy-Based Adaptive Quantum Image Representation Framework for Efficient Multi-Modal Image Processing"** > *Tanisha Debnath* > Institute of Engineering & Management, Kolkata, India.
+**Official implementation** of:
+
+> **“EBA-QR: An Entropy-Based Adaptive Quantum Image Representation Framework for Efficient Multi-Modal Image Processing”**  
+> *Tanisha Debnath* – Institute of Engineering & Management, Kolkata, India.
 
 ---
 
-## 📄 Abstract
-Quantum Image Processing (QIP) promises exponential speedups but faces severe bottlenecks in data encoding efficiency on Noisy Intermediate-Scale Quantum (NISQ) devices. Most existing models (NEQR, FRQI) are content-agnostic, wasting computational resources on irrelevant background pixels.
+##  Overview
 
-This repository introduces **EBA-QR** (Entropy-Based Adaptive Quantum Representation), a content-aware encoding framework. By coupling **Local Shannon Entropy** with quantum circuit generation, EBA-QR dynamically allocates high-precision gates to Regions of Interest (ROI) while compressing background regions. 
+Quantum Image Processing (QIP) promises powerful speedups but is heavily constrained by the cost of encoding classical images into quantum states on NISQ devices. Classical QIR models such as FRQI and NEQR are **content-agnostic**, spending the same gate budget on background and Regions of Interest (ROIs), which is wasteful for sparse scenes like SAR ship detection or tumor-focused MRI scans.
 
-**Key Results:**
-* **78.1% Gate-Cost Reduction** on sparse SAR imagery (SSDD).
-* **64.7% Reduction** on Brain Tumor MRI (Figshare) with high diagnostic safety.
-* **O(1) Complexity** for background region encoding.
-* **Validated on IBM Quantum** simulators and hardware.
+**EBA-QR** (Entropy-Based Adaptive Quantum Representation) is a **content-aware** quantum image representation that:
 
-<p align="center">
-  <img src="EBA_QR_Flowchart_Final (1).png" alt="EBA-QR Architecture Flowchart" width="85%">
-</p>
+- Computes **local Shannon entropy** over image blocks.
+- Uses a tunable threshold to classify blocks as ROI vs. background.
+- Allocates **high-precision NEQR-style gates** only to high-entropy blocks.
+- Applies **gate-skipping** to background blocks so their cost approaches **O(1)** per block.
+
+This yields large gate-count reductions while preserving NEQR-level fidelity in ROIs across SSDD SAR, brain tumor MRI and ICEYE SAR imagery.
 
 ---
 
-## 🚀 Quick Start (No Installation)
-Reproduce all tables, ablation studies, and visualizations from the paper directly in your browser via Google Colab:
+##  One-Click Reproducibility (Colab)
 
-[**[Click Here to Open Notebook]**](https://colab.research.google.com/drive/1tUTHOa5iyWGzKdAlK3WqlHbP5oezR9OP?usp=sharing)
+All experiments, figures and tables from the paper are implemented in a **single Colab notebook**:
+
+👉 **[Open the EBA-QR Colab Notebook](https://colab.research.google.com/drive/1tUTHOa5iyWGzKdAlK3WqlHbP5oezR9OP?usp=sharing)**
+
+The notebook includes:
+
+- Dataset preparation and loading for:
+  - **Brain Tumor MRI** (Figshare).
+  - **SSDD** SAR ship detection.
+  - **ICEYE** SAR (e.g., Doha Airport).
+- EBA-QR circuit construction and the **NEQR+Mask** control baseline.
+- Gate-cost, depth and ROI-fidelity evaluation.
+- Ablation studies (entropy threshold, block size).
+- Visualization of entropy maps, ROI masks, geometric transforms and Sobel edge detection.
+
+No local setup is required: just run the notebook cells top to bottom.
 
 ---
 
-## ⚡ Key Features & Contributions
+##  Datasets
 
-1.  **Entropy-Driven Encoding:** Implements a mathematical gate-cost optimization function $G(I)$ where background cost approaches zero.
-2.  **Multi-Modal Benchmarking:** Tested on three heterogeneous datasets:
-    * **SSDD:** Synthetic Aperture Radar (Sparse/Maritime).
-    * **Brain Tumor MRI:** Medical Imaging (Safety-Critical).
-    * **ICEYE:** Urban Satellite Imagery (Dense/Complex).
-3.  **NISQ-Ready:** Circuits are optimized for depth and implemented using Qiskit.
-4.  **Quantum Operations:** Supports Geometric Transformations (Flips) and Quantum Sobel Edge Detection.
+The notebook expects you to download three **public** datasets. This repository **does not** redistribute raw data; please download from the official sources below and follow the folder structure.
 
----
+### 1. Brain Tumor MRI (Figshare)
 
-## 🛠️ Installation
+- **Source:** Figshare – “brain tumor dataset” (3,064 T1-weighted CE MRI images with meningioma, glioma and pituitary tumors).
+- **Download:**  
+  https://figshare.com/articles/dataset/brain_tumor_dataset/1512427
+- **Destination folder:**  
+  `data/data_MRI/`
 
-If you prefer running the code locally:
+### 2. SSDD – SAR Ship Detection
 
-```bash
-# 1. Clone the repository
-git clone [https://github.com/YOUR_USERNAME/EBA-QR.git](https://github.com/YOUR_USERNAME/EBA-QR.git)
-cd EBA-QR
+- **Source:** SAR Ship Detection Dataset (SSDD), SAR imagery for maritime ship detection.
+- **Download:**  
+  https://drive.google.com/file/d/1glNJUGotrbEyk43twwB9556AdngJsynZ/view?usp=sharing
+- **Destination folder:**  
+  `data/data_SSDD/`
 
-# 2. Install dependencies
-pip install -r requirements.txt
+### 3. ICEYE SAR
 
-```
+- **Source:** ICEYE open SAR datasets (e.g., Doha Airport imagery).
+- **Download:**  
+  https://www.iceye.com/downloads/datasets
+- **Destination folder:**  
+  `data/data_ICEYE/`
 
-### 📂 Dataset Preparation
-
-We utilize three publicly available datasets. Please download them from the links below and extract them into the `data/` directory:
-
-1. **Brain Tumor MRI:** [Download from Figshare](https://figshare.com/articles/dataset/brain_tumor_dataset/1512427)
-* *Description:* 3,064 T1-weighted MRI images containing meningioma, glioma, and pituitary tumors.
-* *Destination:* `data/data_MRI/`
-
-
-2. **SSDD (SAR Ship Detection):** [Download from Google Drive](https://drive.google.com/file/d/1glNJUGotrbEyk43twwB9556AdngJsynZ/view?usp=sharing)
-* *Description:* Synthetic Aperture Radar imagery for maritime surveillance.
-* *Destination:* `data/data_SSDD/`
-
-
-3. **ICEYE SAR:** [Download from ICEYE](https://www.iceye.com/downloads/datasets)
-* *Description:* High-resolution SAR imagery (e.g., Doha Airport).
-* *Destination:* `data/data_ICEYE/`
-
-
-
-**Directory Structure:**
+**Directory Structure (after download):**
 
 ```text
 data/
-├── data_SSDD/   # Contains .jpg/.xml files
-├── data_MRI/    # Contains .mat files
-└── data_ICEYE/  # Contains .png/.tif files
-
+├── data_SSDD/   # SSDD SAR ship detection images
+├── data_MRI/    # Brain tumor MRI images
+└── data_ICEYE/  # ICEYE SAR crops (e.g., Doha Airport)
 ```
+
+The Colab notebook handles resizing to \(32\times 32\), grayscale conversion and entropy-block partitioning once the files are placed correctly.
 
 ---
 
-## 📊 Experimental Results
+##  Key Ideas and Contributions
 
-### 1. Gate Cost Comparison (vs. NEQR)
+- **Entropy-driven gate allocation**  
+  Local Shannon entropy guides where to spend or save gates, shifting the focus from “qubits per pixel” to “gates per unit of useful structure”.
 
-EBA-QR significantly reduces gate cost compared to the standard NEQR model, especially in sparse datasets.
+- **Formal gate-cost model**  
+  A gate-cost function \(G(I)\) shows that background cost can be driven towards \(G_{\text{low}}\approx 0\), while ROI cost scales with the number of high-entropy blocks rather than the full image size.
 
-| Dataset | Model | Avg. Gate Cost | Reduction |
-| --- | --- | --- | --- |
-| **SSDD (SAR)** | NEQR | 16,384 | - |
-|  | **EBA-QR** | **10,900** | **33.5%** |
-| **Brain MRI** | NEQR | 16,384 | - |
-|  | **EBA-QR** | **12,006** | **26.7%** |
+- **NEQR+Mask baseline**  
+  Uses the *same* entropy-based mask as EBA-QR but keeps the **standard NEQR circuit**, isolating the contribution of the adaptive representation from classical masking.
 
-### 2. Disentangling Masking vs. Representation
+- **NISQ-ready circuits**  
+  Implemented in **Qiskit**, evaluated on simulators and small IBM Quantum backends, focusing on realistic gate counts and noise behavior.
 
-We demonstrate that gains are due to the quantum architectural changes, not just classical masking.
-
-| Dataset | NEQR+Mask (Baseline) | EBA-QR (Ours) | Structural Gain |
-| --- | --- | --- | --- |
-| **SSDD** | 16,074 | 15,803 | **1.7%** |
-| **MRI** | 14,502 | 12,856 | **11.4%** |
+- **Processing-ready QIR**  
+  Supports quantum **geometric transformations** (horizontal/vertical flips) and **Sobel edge detection** on EBA-QR states, making it suitable as a front-end for quantum CNNs and other QML models.
 
 ---
 
-## 💻 Usage
+##  Main Results (High-Level)
 
-### Run Full Benchmarks
+- Up to **78.1% gate-cost reduction** on sparse SSDD SAR scenes while preserving ROI fidelity.
+- Up to **64.7% reduction** on Brain Tumor MRI with high diagnostic safety.
+- Additional structural gains over **NEQR+Mask**, confirming that improvements come from the representation itself, not only from classical masking.
+- Demonstrated execution of flips and Sobel edges on EBA-QR states within NISQ-friendly circuit depths.
 
-To generate the comparison tables against 10 baselines (FRQI, NEQR, GQIR, QLR, DCT-EFRQI, QPIE, TNR, INEQR, QRMW):
-
-```bash
-python main_benchmark.py
-
-```
-
-### Run Ablation Studies
-
-To reproduce the Threshold Sensitivity () and Block Size () analysis (Section 7.3 of the paper):
-
-```bash
-python ablation_study.py
-
-```
-
-### Visualize Entropy & Operations
-
-To generate Entropy Heatmaps and Quantum Sobel Edge Detection results:
-
-```bash
-python visualize_ops.py
-
-```
+All numeric values and tables (including ablations) are recomputed in the Colab notebook.
 
 ---
 
-## 📝 Citation
+##  Local Use (Optional)
 
-If you use this code or our results in your research, please cite the paper:
+If you want to clone and run the notebook locally:
+
+```bash
+git clone https://github.com/TanishaDebnath/EBA-QR.git
+cd EBA-QR
+
+# (Optional) create a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+Then open the `.ipynb` notebook in Jupyter or VS Code and run all cells.
+
+---
+
+##  Citation
+
+If you use this repository or build upon EBA-QR, please cite:
 
 ```bibtex
 @article{debnath2025eba,
-  title={EBA-QR: An Entropy-Based Adaptive Quantum Image Representation Framework for Efficient Multi-Modal Image Processing},
-  author={Debnath, Tanisha},
-  journal={arXiv preprint},
-  year={2025},
-  note={Under Review}
+  title   = {EBA-QR: An Entropy-Based Adaptive Quantum Image Representation Framework for Efficient Multi-Modal Image Processing},
+  author  = {Debnath, Tanisha},
+  journal = {arXiv preprint},
+  year    = {2025},
+  note    = {Under review}
 }
-
 ```
 
-## 📜 License
+---
 
-This project is licensed under the **MIT License**.
+##  License
 
-## 📧 Contact
+This project is licensed under the **MIT License**. See `LICENSE` for details.
 
-**Tanisha Debnath** Institute of Engineering & Management, Kolkata
+---
 
-Email: [tanishabdebnath@gmail.com](mailto:tanishabdebnath@gmail.com)
+##  Contact
 
-```
+For questions, feedback or collaborations:
 
-```
+- **Author:** Tanisha Debnath  
+- **Affiliation:** Institute of Engineering & Management, Kolkata  
+- **Email:** [tanishabdebnath@gmail.com](mailto:tanishabdebnath@gmail.com)  
+- **Project:** https://github.com/TanishaDebnath/EBA-QR
+
