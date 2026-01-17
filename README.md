@@ -86,7 +86,7 @@ data/
 └── data_ICEYE/  # ICEYE SAR crops (e.g., Doha Airport)
 ```
 
-The Colab notebook handles resizing to \(32\times 32\), grayscale conversion and entropy-block partitioning once the files are placed correctly.
+The Colab notebook handles resizing to 32 X 32, grayscale conversion and entropy-block partitioning once the files are placed correctly.
 
 ---
 
