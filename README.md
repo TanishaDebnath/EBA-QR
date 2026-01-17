@@ -92,21 +92,17 @@ The Colab notebook handles resizing to \(32\times 32\), grayscale conversion and
 
 ##  Key Ideas and Contributions
 
-- **Entropy-driven gate allocation**  
-  Local Shannon entropy guides where to spend or save gates, shifting the focus from “qubits per pixel” to “gates per unit of useful structure”.
+- EBA-QR uses entropy-driven gate allocation, where local Shannon entropy highlights structurally important regions so gates are concentrated on meaningful content instead of being spent uniformly on all pixels.  
 
-- **Formal gate-cost model**  
-  A gate-cost function \(G(I)\) shows that background cost can be driven towards \(G_{\text{low}}\approx 0\), while ROI cost scales with the number of high-entropy blocks rather than the full image size.
+- This shifts the design focus from “qubits per pixel” toward “gates per unit of useful structure,” reducing the overall number of operations needed for sparse or moderately complex images.  
 
-- **NEQR+Mask baseline**  
-  Uses the *same* entropy-based mask as EBA-QR but keeps the **standard NEQR circuit**, isolating the contribution of the adaptive representation from classical masking.
+- A formal gate-cost model is used conceptually to show that the contribution of low-entropy background can be pushed very close to zero, while the cost in regions of interest mainly depends on how many high-entropy blocks there are rather than on the full image size.  
 
-- **NISQ-ready circuits**  
-  Implemented in **Qiskit**, evaluated on simulators and small IBM Quantum backends, focusing on realistic gate counts and noise behavior.
+- A NEQR+Mask baseline is introduced that uses exactly the same entropy-based ROI mask as EBA-QR but keeps a standard NEQR circuit, which makes it possible to isolate how much of the improvement comes from the adaptive representation itself instead of from classical masking.  
 
-- **Processing-ready QIR**  
-  Supports quantum **geometric transformations** (horizontal/vertical flips) and **Sobel edge detection** on EBA-QR states, making it suitable as a front-end for quantum CNNs and other QML models.
+- The method is implemented with realistic NISQ constraints in mind, using Qiskit-based simulations and small IBM Quantum backends to evaluate gate counts, depth and noise behavior.  
 
+- Because the representation preserves NEQR-style structure in informative regions, it directly supports quantum geometric transformations such as horizontal and vertical flips and hybrid quantum–classical Sobel edge detection, making it a practical front-end for quantum CNNs and other quantum machine learning models.
 ---
 
 ##  Main Results (High-Level)
@@ -170,4 +166,3 @@ For questions, feedback or collaborations:
 - **Email:** [tanishabdebnath@gmail.com](mailto:tanishabdebnath@gmail.com)  
 - **Project:** [https://github.com/TanishaDebnath/EBA-QR](https://github.com/TanishaDebnath/EBA-QR)
 
-give me a read me in github keep all these just change result according to my paper and and the code in collab not jupitar notebboook
